@@ -40,7 +40,7 @@ inline auto getSeqPtr(CreatureStatus& obj) {
 }
 
 template <typename ... Args, size_t ... Is>
-inline auto getSeqImpl(std::tuple<Args*...> seqPtr, std::integer_sequence<size_t, Is...>) {
+inline auto getSeqImpl(std::tuple<Args*...> &&seqPtr, std::integer_sequence<size_t, Is...>) {
 	return std::make_tuple(*(std::get<Is>(seqPtr))...);
 }
 
