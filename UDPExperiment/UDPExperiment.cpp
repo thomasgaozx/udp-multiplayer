@@ -60,10 +60,10 @@ void UnitTestSerialize() {
 	status2.x = 5.5f;
 
 	auto writer = PacketWriter();
-	writeDelta<CreatureStatus>(getSequence(status1), getSequence(status0), writer);
+	writeDelta<CreatureStatus>(getSerial(status1), getSerial(status0), writer);
 	auto tmp1 = writer.flush();
 
-	writeDelta<CreatureStatus>(getSequence(status2), getSequence(status0), writer);
+	writeDelta<CreatureStatus>(getSerial(status2), getSerial(status0), writer);
 	auto tmp2 = writer.flush();
 
 	cout << "status1 delta string size: " << tmp1.size() << endl;
@@ -80,15 +80,15 @@ void UnitTestSerialize() {
 	CreatureStatus res1{}, res2{};
 
 	// read tmp1 first
-	readDelta<CreatureStatus>(getSeqPtr(res1), reader);
-	readDelta<CreatureStatus>(getSeqPtr(res2), reader);
+	readDelta<CreatureStatus>(getSerPtr(res1), reader);
+	readDelta<CreatureStatus>(getSerPtr(res2), reader);
 
 	cout << "res1: ";
 	cout << res1.x << ", "
 		<< res1.z << ", "
 		<< res1.heading << ", "
-		<< res1.animframe << ", "
-		<< res1.faction << endl;
+		<< static_cast<uint32_t>(res1.animframe) << ", "
+		<< static_cast<uint32_t>(res1.faction) << endl;
 	cout << "res2: " << res2.x << endl;
 
 	assert((abs(res1.x - status1.x) < TOL));
