@@ -8,6 +8,7 @@
 #include <vector>
 
 bool isBigEndian();
+void unitTestSetEndian(bool isBig);
 
 template <typename T>
 std::enable_if_t< std::is_integral_v<T> || std::is_floating_point_v<T>> swapByte(T& val) {
@@ -45,6 +46,12 @@ public:
 	PacketWriter& operator<<(T obj) {
 		write(obj);
 		return *this;
+	}
+
+	std::vector<char> flush() {
+		std::vector<char> tmp{};
+		std::swap(_buffer, tmp);
+		return std::move(tmp);
 	}
 
 private:

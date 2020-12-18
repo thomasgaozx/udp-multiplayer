@@ -5,10 +5,14 @@
 #include <limits>
 
 uint16_t test = 0x1100;
-const bool _isBigEndian = *(char*)&test;
+bool _isBigEndian = *(char*)&test;
 
 bool isBigEndian() {
 	return _isBigEndian;
+}
+
+void unitTestSetEndian(bool isBig) {
+	_isBigEndian = isBig;
 }
 
 void PacketWriter::write(char obj) {
