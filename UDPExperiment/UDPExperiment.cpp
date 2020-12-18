@@ -60,10 +60,10 @@ void UnitTestSerialize() {
 	status2.x = 5.5f;
 
 	auto writer = PacketWriter();
-	writeDelta<CreatureStatus>(getSerial(status1), getSerial(status0), writer);
+	writeDelta<CreatureStatus>(writer, status1, status0);
 	auto tmp1 = writer.flush();
 
-	writeDelta<CreatureStatus>(getSerial(status2), getSerial(status0), writer);
+	writeDelta<CreatureStatus>(writer, status2, status0);
 	auto tmp2 = writer.flush();
 
 	cout << "status1 delta string size: " << tmp1.size() << endl;
@@ -80,8 +80,8 @@ void UnitTestSerialize() {
 	CreatureStatus res1{}, res2{};
 
 	// read tmp1 first
-	readDelta<CreatureStatus>(getSerPtr(res1), reader);
-	readDelta<CreatureStatus>(getSerPtr(res2), reader);
+	readDelta(reader, res1);
+	readDelta(reader, res2);
 
 	cout << "res1: ";
 	cout << res1.x << ", "
