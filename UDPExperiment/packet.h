@@ -99,6 +99,8 @@ public:
 		return *this;
 	}
 
+	bool done() { return _pos == _buffer.size(); }
+
 private:
 	size_t _pos = 0 ;
 	std::vector<char> _buffer;

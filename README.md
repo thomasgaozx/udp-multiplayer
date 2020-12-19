@@ -89,11 +89,16 @@ struct CreatureStatus {
 
 **Delta string of structure**: First two bytes will indicate which fields are changed. The subsequent bytes will represent the changed fields (see field serialization), respectively.
 
-**Packets Structure**: UDP packet size is restricted to 1500 bytes. So a single UDP packet may not convey the entirety of a Master Snapshot, so UDP packet has the following structure.
+**Packets Structure**: a single udp packet must capture the entirety of a snapshot.
+Some udp packet may have size greater than 1500 and so *may* need to be fragmented for optimal performance
+(only worry about that if the current implementation affects performance).
 
-- The first 4 bytes (uint32_t) will indicate snapshot sequence
+- The first 4 bytes (uint32_t) will indicate Server snapshot sequence
+- The second 4 bytes (uint32_t) will indicate last client ACK sequence
 - The next 4 bytes (uint32_t) will be the tick
-- The body is a bundle of multiple structure delta strings. Each delta string has a 4-byte prefix (uint32_t): Creature ID (client can then look up type of structure used) followed by its delta string.
+- The body is a bundle of multiple structure delta strings.
+  - Each delta string has a 4-byte prefix (uint32_t): Creature ID
+  - (client can then look up type of structure used) followed by its delta string.
 
 Note that there are no way to know whether the entirety of a snapshot is properly conveyed, but that is of no consequence.
 

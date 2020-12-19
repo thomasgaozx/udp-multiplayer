@@ -1,4 +1,5 @@
 #include "delta.h"
+#include "object.h"
 
 using namespace std;
 
@@ -104,6 +105,7 @@ void readDelta(PacketReader& reader, T& obj) {
     readDeltaBuff<T>(getSerPtr(obj), reader);
 }
 
+// https://isocpp.org/wiki/faq/templates#separate-template-fn-defn-from-decl
 #define DECL_SERIAL(T, ...) auto getSerPtr(T & obj) \
     { return std::make_tuple(__VA_ARGS__); } \
     template void writeDelta<T>(PacketWriter& writer, T& cur, T& old); \
