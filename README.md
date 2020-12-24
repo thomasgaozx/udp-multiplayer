@@ -106,11 +106,11 @@ struct CreatureStatus {
 
 **Field serialization**:
 
-| Field type     | Field Body      |
-| -------------- | --------------- |
-| Primitive Type | Little Endian   |
-| String         | Null-Terminated |
-| List/Container | Null-Terminated |
+| Field type     | Field Header          | Field Body      |
+| -------------- | --------------------- | --------------- |
+| Primitive Type | N/A                   | Little Endian   |
+| String         | N/A                   | Null-Terminated |
+| List/Container | One byte specify size | Null-Terminated |
 
 **Delta string of structure**: First 4 bytes (uint32_t) will indicate which fields are changed. (Each Status structure can have a maximum of 32 fields.) The subsequent bytes will represent the changed fields (see field serialization), respectively.
 
